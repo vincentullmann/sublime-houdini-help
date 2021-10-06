@@ -1,0 +1,62 @@
+%YAML 1.2
+
+name: Houdini Help
+file_extensions:
+  - txt
+scope: source.houdini_help
+
+contexts:
+  main:
+
+    # Headers
+    - match: =+\s.+=+
+      scope: keyword markup.heading
+
+    - match: \*.+\*
+      scope: markup.bold
+
+    - match: _.+_
+      scope: markup.italic
+
+    # inline code
+    - match: \`.*\`
+      scope: variable.parameter
+
+    # Tags
+    - match: '^\s*#.+'  # properties
+      scope: comment
+
+    - match: '@\w+'  # @-sign sections
+      scope: storage.type.function
+
+    - match: '[A-Z]+:'  # group blocks
+      scope: markup.bold
+
+    # regular paragraph headings
+    - match: '^.+:$'
+      scope: entity.name
+
+    - match: ':\w+:'  # group blocks
+      scope: constant.numeric
+
+    - match: '\(\(.+\)\)'  # hotkeys
+      scope: constant.numeric
+
+    # tables
+    - match: '\|+'
+      scope: keyword
+
+    # link
+    - match: \[
+      push: link
+      scope: punctuation.brackets.begin
+
+  link: # link context
+    - meta_scope: storage.type.function
+
+    - match: '|'
+      scope: keyword
+
+    - match: '\]'
+      pop: true
+
